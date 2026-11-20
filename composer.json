@@ -1,0 +1,34 @@
+{
+  "name": "startpro/wiki-reader",
+  "description": "Reading progress and multiple bookmarks for LR Wiki on Flarum 2.x",
+  "type": "flarum-extension",
+  "license": "MIT",
+  "require": {
+    "php": "^8.3",
+    "flarum/core": "^2.0",
+    "linkrobins/wiki": "^1.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "StartPro\\WikiReader\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "StartPro Wiki 阅读助手",
+      "category": "feature",
+      "icon": {
+        "name": "fas fa-bookmark",
+        "backgroundColor": "#293449",
+        "color": "#8be0da"
+      }
+    }
+  },
+  "keywords": [
+    "flarum",
+    "wiki",
+    "reading-progress",
+    "bookmarks",
+    "linkrobins"
+  ]
+}

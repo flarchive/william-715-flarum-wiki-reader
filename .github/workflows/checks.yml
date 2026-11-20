@@ -1,0 +1,22 @@
+name: Static checks
+on:
+  push:
+  pull_request:
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: PHP syntax checks
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: JS syntax checks
+        run: node --check js/dist/forum.js
+      - name: Check LESS-compatible CSS functions
+        run: |
+          if grep -nE '(^|[^[:alnum:]_-])(min|max)\(' less/forum.css; then
+            echo 'Avoid min()/max() CSS functions in Flarum LESS input; they can cause HTTP 500 during asset compilation.'
+            exit 1
+          fi

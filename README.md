@@ -2,17 +2,13 @@
 
 > **Read-only archive of released versions of startpro/wiki-reader.** Not for installation: use [Packagist](https://packagist.org/packages/startpro/wiki-reader) or the [upstream repository](https://github.com/William-715/flarum-wiki-reader).
 
-**5** versions archived · Latest: [`v0.1.0-beta.5`](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.5) · License: `MIT` · Flarum: `^2.0`
+**0** versions archived · Latest: [`v0.3.0-beta.1`](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.3.0-beta.1) · License: `MIT` · Flarum: `^2.0`
 
 ## Archived Versions
 
 | Version | Released | Flarum | Source |
 |---|---|---|---|
-| `v0.1.0-beta.1` | 2026-11-20 | `^2.0` | [Browse](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.1) |
-| `v0.1.0-beta.2` | 2026-11-20 | `^2.0` | [Browse](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.2) |
-| `v0.1.0-beta.3` | 2026-11-20 | `^2.0` | [Browse](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.3) |
-| `v0.1.0-beta.4` | 2026-11-20 | `^2.0` | [Browse](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.4) |
-| `v0.1.0-beta.5` | 2026-11-20 | `^2.0` | [Browse](https://github.com/flarchive/william-715-flarum-wiki-reader/tree/archive/v0.1.0-beta.5) |
+| — | — | — | — |
 
 Catalog entry: [packages/william-715-flarum-wiki-reader.json](https://github.com/flarchive/archive-index/blob/main/packages/william-715-flarum-wiki-reader.json)
 

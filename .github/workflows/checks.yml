@@ -1,0 +1,37 @@
+name: Static and behavior checks
+on:
+  push:
+  pull_request:
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring
+      - name: Check PHP syntax
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: Validate position data bounds
+        run: php tests/reader-validation.php
+      - name: Check JS syntax
+        run: node --check js/dist/forum.js
+      - name: Flarum 2 module export contract
+        run: node js/tests/flarum-module-export.test.cjs
+      - name: Flarum boot timing
+        run: node js/tests/flarum-login-lifecycle.test.cjs
+      - name: Beta 5 backward-compatibility and resume
+        run: node js/tests/cross-device-resume.test.cjs
+      - name: v0.2 behavior smoke tests
+        run: node js/tests/v02-workflows.test.cjs
+      - name: Validate v0.3 private notes and text limits
+        run: php tests/v03-validation.php
+      - name: v0.3 front-end reading workflows
+        run: node js/tests/v03-workflows.test.cjs
+      - name: Guard against Less min/max compiler regression
+        run: |
+          if grep -nE '(^|[^[:alnum:]_-])(min|max)\(' less/forum.css; then
+            echo 'Flarum Less input must avoid CSS min()/max() functions.'
+            exit 1
+          fi

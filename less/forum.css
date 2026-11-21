@@ -1,0 +1,143 @@
+.SPWikiReader-dock {
+  position: fixed; right: 20px; bottom: 20px; z-index: 950;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 7px;
+  max-width: 470px; padding: 9px;
+  background: var(--body-bg, #fff); border: 1px solid var(--control-bg, #ddd);
+  box-shadow: 0 8px 30px rgba(0,0,0,.15); border-radius: 16px;
+}
+.SPWikiReader-dock[hidden], .SPWikiReader-panel[hidden], .SPWikiReader-button[hidden] { display: none !important; }
+.SPWikiReader-button { cursor: pointer; border: 0; border-radius: 9px; padding: 8px 10px; font-weight: 600; background: var(--control-bg, #eee); color: var(--text-color, #333); font-size: 13px; line-height: 1.3; }
+.SPWikiReader-button:hover { filter: brightness(.96); }
+.SPWikiReader-button:focus-visible { outline: 2px solid var(--primary-color, #07adcc); outline-offset: 2px; }
+.SPWikiReader-mainButton { background: var(--primary-color, #07adcc); color: white; }
+.SPWikiReader-status { flex-basis: 100%; font-size: 11px; color: var(--muted-color, #777); padding-left: 3px; }
+.SPWikiReader-status:empty { display: none; }
+.SPWikiReader-panel { box-sizing: border-box; position: fixed; right: 20px; bottom: 92px; z-index: 951;
+  width: 410px; max-width: calc(100vw - 24px); max-height: 74vh;
+  background: var(--body-bg, #fff); color: var(--text-color, #222); border-radius: 16px;
+  border: 1px solid var(--control-bg, #ddd); box-shadow: 0 16px 46px rgba(0,0,0,.22);
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.SPWikiReader-panelHeader { display: flex; justify-content: space-between; align-items: center; padding: 15px 16px; border-bottom: 1px solid var(--control-bg, #ddd); }
+.SPWikiReader-panelHeader strong { font-size: 16px; }
+.SPWikiReader-panelContent { padding: 12px 15px 18px; overflow-y: auto; min-height: 0; }
+.SPWikiReader-panelContent h3 { font-size: 14px; margin: 12px 0 8px; font-weight: 700; }
+.SPWikiReader-muted { color: var(--muted-color, #777); font-size: 13px; line-height: 1.55; }
+.SPWikiReader-row { display: flex; gap: 10px; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--control-bg, #eee); padding: 10px 0; }
+.SPWikiReader-rowLink { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; color: var(--text-color, #333); text-decoration: none; }
+.SPWikiReader-rowLink:hover { color: var(--primary-color, #07adcc); text-decoration: none; }
+.SPWikiReader-rowTitle { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; font-weight: 600; }
+.SPWikiReader-rowDetail { color: var(--muted-color, #888); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; }
+.SPWikiReader-delete { flex-shrink: 0; background: transparent; color: var(--muted-color, #777); font-size: 12px; }
+@media (max-width: 600px) {
+ .SPWikiReader-dock { left: 10px; right: 10px; bottom: 10px; max-width: none; justify-content: center; }
+ .SPWikiReader-panel { right: 10px; bottom: 100px; }
+ .SPWikiReader-status { text-align: center; }
+}
+
+/* v0.2: searchable, editable library and accessible mobile action menu. */
+.SPWikiReader-row { flex-wrap: wrap; align-items: flex-start; }
+.SPWikiReader-rowSummary { flex: 1 1 190px; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.SPWikiReader-rowActions, .SPWikiReader-editActions { display: flex; gap: 7px; flex-wrap: wrap; }
+.SPWikiReader-rowActions { flex-shrink: 0; }
+.SPWikiReader-editButton, .SPWikiReader-delete, .SPWikiReader-undoButton,
+.SPWikiReader-cancelEdit, .SPWikiReader-saveEdit, .SPWikiReader-pagePrev,
+.SPWikiReader-pageNext { padding: 7px 9px; font-size: 12px; }
+.SPWikiReader-rowNote { display: block; font-size: 12px; line-height: 1.55; color: var(--muted-color, #777);
+  overflow-wrap: anywhere; white-space: pre-wrap; }
+.SPWikiReader-rowDetail { white-space: normal; overflow-wrap: anywhere; }
+.SPWikiReader-editForm { flex-basis: 100%; width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.SPWikiReader-editLabel, .SPWikiReader-editNote, .SPWikiReader-search, .SPWikiReader-sort {
+  box-sizing: border-box; max-width: 100%; min-width: 0; padding: 9px 10px;
+  border-radius: 9px; border: 1px solid var(--control-bg, #bbb);
+  background: var(--body-bg, #fff); color: var(--text-color, #333); font: inherit;
+}
+.SPWikiReader-editNote { resize: vertical; min-height: 65px; }
+.SPWikiReader-filters { display: flex; gap: 9px; margin: 10px 0; flex-wrap: wrap; }
+.SPWikiReader-search { flex: 1 1 160px; }
+.SPWikiReader-sort { flex: 0 0 110px; }
+.SPWikiReader-paging { display: flex; justify-content: center; align-items: center; gap: 12px;
+  margin: 14px 0 2px; font-size: 12px; }
+.SPWikiReader-paging button:disabled { opacity: .4; cursor: not-allowed; }
+.SPWikiReader-undo { display: flex; gap: 8px; justify-content: space-between; align-items: center;
+  padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 12px;
+  background: var(--control-bg, #eee); }
+.SPWikiReader-conflictButton { background: #7c5035; color: #fff; }
+.SPWikiReader-libraryButton { display: none; }
+.SPWikiReader-panelContent { overscroll-behavior: contain; }
+.SPWikiReader-button:focus-visible, .SPWikiReader-editLabel:focus-visible,
+.SPWikiReader-editNote:focus-visible, .SPWikiReader-search:focus-visible,
+.SPWikiReader-sort:focus-visible { outline: 2px solid var(--primary-color, #07adcc); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .SPWikiReader-dock {
+    left: auto; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    width: auto; max-width: calc(100vw - 24px); padding: 5px; gap: 6px;
+    flex-direction: column; align-items: stretch; border-radius: 14px;
+  }
+  .SPWikiReader-dock .SPWikiReader-markButton,
+  .SPWikiReader-dock .SPWikiReader-resumeButton,
+  .SPWikiReader-dock .SPWikiReader-libraryButton,
+  .SPWikiReader-dock .SPWikiReader-conflictButton { display: none; }
+  .SPWikiReader-dock.is-expanded .SPWikiReader-markButton:not([hidden]),
+  .SPWikiReader-dock.is-expanded .SPWikiReader-resumeButton:not([hidden]),
+  .SPWikiReader-dock.is-expanded .SPWikiReader-libraryButton:not([hidden]),
+  .SPWikiReader-dock.is-expanded .SPWikiReader-conflictButton:not([hidden]) { display: block; }
+  .SPWikiReader-dock .SPWikiReader-mainButton { padding: 11px 14px; white-space: nowrap; }
+  .SPWikiReader-dock .SPWikiReader-status { display: none; max-width: 240px; padding: 6px; }
+  .SPWikiReader-dock.is-expanded .SPWikiReader-status:not(:empty),
+  .SPWikiReader-dock.has-notice .SPWikiReader-status:not(:empty) { display: block; }
+  .SPWikiReader-panel {
+    left: 10px; right: 10px; bottom: calc(65px + env(safe-area-inset-bottom, 0px));
+    width: auto; max-height: 76vh; max-height: 76dvh;
+  }
+  .SPWikiReader-rowActions { width: 100%; }
+  .SPWikiReader-sort { flex-basis: 100px; }
+}
+
+/* v0.3: personal reading notes, explicit books, completion and statistics. */
+.SPWikiReader-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 9px;
+  border-bottom: 1px solid var(--control-bg, #ddd); margin-bottom: 10px; }
+.SPWikiReader-tab { flex: 0 0 auto; border-radius: 8px; font-size: 12px; padding: 8px; }
+.SPWikiReader-tab.is-active { background: var(--primary-color, #a65aae); color: #fff; }
+.SPWikiReader-highlightCard, .SPWikiReader-bookCard, .SPWikiReader-bookAdmin {
+  border: 1px solid var(--control-bg, #ddd); border-radius: 12px;
+  padding: 13px; margin: 10px 0; display: flex; flex-direction: column; gap: 9px;
+}
+.SPWikiReader-highlightQuote { font-size: 13px; line-height: 1.6;
+  color: var(--text-color, #333); overflow-wrap: anywhere; border-left: 3px solid #e9b454;
+  padding-left: 8px; text-decoration: none; }
+.SPWikiReader-highlightQuote:hover { color: var(--primary-color, #a65aae); }
+.SPWikiReader-highlightNote, .SPWikiReader-highlightSearch, .SPWikiReader-newBookTitle,
+.SPWikiReader-bookSelector, .SPWikiReader-chapterPosition {
+  box-sizing: border-box; width: 100%; max-width: 100%; border: 1px solid var(--control-bg, #bbb);
+  border-radius: 8px; padding: 9px; background: var(--body-bg, #fff);
+  color: var(--text-color, #333); font: inherit;
+}
+.SPWikiReader-highlightNote { min-height: 70px; resize: vertical; }
+.SPWikiReader-chapterRow { display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 7px; padding: 8px 0; border-top: 1px solid var(--control-bg, #ddd); }
+.SPWikiReader-chapterRow .SPWikiReader-rowLink { flex: 1 1 150px; font-size: 13px;
+  overflow-wrap: anywhere; text-decoration: none; }
+.SPWikiReader-completeSmall { white-space: nowrap; font-size: 11px; }
+.SPWikiReader-meter { height: 7px; background: var(--control-bg, #ddd); border-radius: 999px; overflow: hidden; }
+.SPWikiReader-meterFill { height: 100%; background: var(--primary-color, #ad57bb); border-radius: 999px; }
+.SPWikiReader-bookCard strong { font-size: 15px; }
+.SPWikiReader-bookAdmin { background: var(--control-bg, #f4f4f4); }
+.SPWikiReader-statsGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.SPWikiReader-statTile { display: flex; flex-direction: column; gap: 6px;
+  border-radius: 10px; padding: 11px; background: var(--control-bg, #eee); }
+.SPWikiReader-statTile strong { font-size: 16px; color: var(--text-color, #222); }
+.SPWikiReader-statTile small { font-size: 11px; color: var(--muted-color, #777); }
+.SPWikiReader-panel { width: 460px; }
+@media (max-width: 640px) {
+  .SPWikiReader-dock .SPWikiReader-highlightButton,
+  .SPWikiReader-dock .SPWikiReader-shelfButton,
+  .SPWikiReader-dock .SPWikiReader-completeButton { display: none; }
+  .SPWikiReader-dock.is-expanded .SPWikiReader-highlightButton:not([hidden]),
+  .SPWikiReader-dock.is-expanded .SPWikiReader-shelfButton:not([hidden]),
+  .SPWikiReader-dock.is-expanded .SPWikiReader-completeButton:not([hidden]) { display: block; }
+  .SPWikiReader-panel { width: auto; max-height: 76vh; max-height: 76dvh; }
+  .SPWikiReader-tabs { gap: 3px; }
+  .SPWikiReader-tab { font-size: 11px; padding: 7px 6px; }
+}
